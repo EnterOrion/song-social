@@ -49,6 +49,7 @@ h6 {
 }
 
 /* Styling start */
+
 body {
   font-family: "Lato", sans-serif;
 }
@@ -67,13 +68,19 @@ nav {
     display: flex;
     list-style: none;
     justify-content: space-between;
+    align-items: center;
   }
+}
+
+.nav-1 {
+  font-family: "Roboto", sans-serif;
+  font-size: 1.5rem;
 }
 
 .nav-3 {
   margin-right: 1.5rem;
   display: flex;
-  gap: 5px;
+  gap: 1rem;
 }
 
 .nav-2 {
@@ -151,14 +158,45 @@ nav {
 
 .heart-icon,
 .comment-icon,
-.add-icon {
+.add-icon,
+.home-icon,
+.profile-icon,
+.bell-icon {
   height: 25px;
   width: 25px;
+}
+
+.nav-mobile {
+  display: none;
+}
+
+@media (max-width: 700px) {
+  .nav-mobile {
+    display: block;
+    margin-right: 1rem;
+  }
+  .nav-2 {
+    width: 100px;
+  }
+  .nav-3 {
+    display: none;
+  }
 }
 
 @media (max-width: 650px) {
   .user-song {
     font-size: 1rem;
     width: 80%;
+  }
+}
+
+@media (max-width: 350px) {
+  .nav-1 {
+    font-size: 1rem;
+  }
+  .nav-2 {
+    input {
+      margin-right: 0.5rem;
+    }
   }
 }

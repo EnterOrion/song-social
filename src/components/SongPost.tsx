@@ -1,8 +1,8 @@
 import { FC } from "react";
-import testPFP from "../assets/test-pfp.jpeg";
-import heartIcon from "../assets/heart2.svg";
-import commentIcon from "../assets/comment.svg";
-import addIcon from "../assets/plus.svg";
+import testPFP from "../assets/images/test-pfp.jpeg";
+import heartIcon from "../assets/images/icons/heart2.svg";
+import commentIcon from "../assets/images/icons/comment.svg";
+import addIcon from "../assets/images/icons/plus.svg";
 
 const SongPost: FC = () => {
   return (
