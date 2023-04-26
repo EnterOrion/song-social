@@ -1,5 +1,6 @@
 import { FC } from "react";
-import testPFP from "../assets/images/test-pfp.jpeg";
+import NewPost from "./NewPost";
+import testPFP from "../assets/images/testPFP.jpg";
 import heartIcon from "../assets/images/icons/heart2.svg";
 import commentIcon from "../assets/images/icons/comment.svg";
 import addIcon from "../assets/images/icons/plus.svg";
@@ -7,11 +8,13 @@ import addIcon from "../assets/images/icons/plus.svg";
 const SongPost: FC = () => {
   return (
     <div className="song-container">
+      <NewPost />
       <div className="song-card">
         <div className="post-user">
           <img className="post-pfp" src={testPFP} alt="User profile picture" />{" "}
           <h1 className="user-song">
-            Elliot is listening to Fist of God by MSTRKRFT
+            <strong>Elliot</strong> is listening to{" "}
+            <em>Fist of God by MSTRKRFT</em>
           </h1>
         </div>
         <div className="post-info">
