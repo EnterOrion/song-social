@@ -19,9 +19,9 @@ const SongPost: FC = () => {
         </div>
         <div className="post-info">
           <p className="post-description">
-            I feel like it suits my mood. I've never heard something as good as
-            this! I think that this is a good song. An amazing song. Wow, I love
-            music so much. I think that there's no need to listen to other.
+            I feel like it suits my mood. I've been trying to save the world
+            from evil corporations and this song gets me motivated to keep
+            going. It has a lot of energy.
           </p>
           <p className="post-time">30 minutes ago</p>
         </div>
