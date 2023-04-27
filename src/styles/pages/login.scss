@@ -7,10 +7,16 @@
   h2 {
     display: flex;
     align-items: center;
-    padding-top: 0.5rem;
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e2e8f0;
+    padding-top: 1.5rem;
+    font-weight: 400;
   }
+}
+
+.bottom-margin {
+  border-bottom: 1px solid #e2e8f0;
+  padding-top: 0.5rem;
+  font-weight: 700 !important;
+  padding-bottom: 1rem;
 }
 
 .alt-margin {
@@ -31,11 +37,12 @@
 
 .login-header {
   font-size: 3rem;
+  font-family: "Roboto", sans-serif;
 }
 
 .form-container {
   display: flex;
-  width: 90%;
+  width: 85%;
   flex-direction: column;
   align-items: center;
   padding: 1rem;
@@ -46,7 +53,6 @@
   -webkit-box-shadow: 1px 10px 38px -2px rgba(0, 0, 0, 0.15);
   -moz-box-shadow: 1px 10px 38px -2px rgba(0, 0, 0, 0.15);
   form {
-    padding-top: 1rem;
     padding-bottom: 0.5rem;
     width: 100%;
   }
