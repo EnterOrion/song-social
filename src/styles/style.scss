@@ -4,26 +4,12 @@
 @import "./homePageCards/songPost";
 @import "./homePageCards/statsCard";
 @import "./homePageCards/topTracks";
+@import "./pages/home";
 
 /* Styling start */
 
 body {
   font-family: "Lato", sans-serif;
-}
-
-.song-container {
-  width: 100%;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  gap: 1rem;
-  padding-top: clamp(100px, 5%, 1000px);
-}
-
-.home-page {
-  display: flex;
-  background-color: rgb(231, 231, 231);
 }
 
 @media (max-width: 1310px) {
