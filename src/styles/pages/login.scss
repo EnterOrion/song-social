@@ -7,16 +7,16 @@
   h2 {
     display: flex;
     align-items: center;
-    padding-top: 1.5rem;
+    padding-top: 1.2rem;
     font-weight: 400;
   }
 }
 
 .bottom-margin {
-  border-bottom: 1px solid #e2e8f0;
+  border-bottom: 2px solid #e2e8f0;
   padding-top: 0.5rem;
   font-weight: 700 !important;
-  padding-bottom: 1rem;
+  padding-bottom: 1.3rem;
 }
 
 .alt-margin {
@@ -101,5 +101,10 @@
   }
   .login-header {
     font-size: 1.5rem;
+  }
+  .login-page {
+    .bottom-margin {
+      font-size: 0.9rem;
+    }
   }
 }
