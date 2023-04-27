@@ -21,7 +21,7 @@ function App() {
                 data={loopIcon}
                 type="image/svg+xml"
               ></object>
-              Your current top tracks
+              Your current<span className="accent-color"> top tracks</span>
             </div>
           </h1>
           <ol>

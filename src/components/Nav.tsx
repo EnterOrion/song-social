@@ -1,9 +1,19 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import homeIcon from "../assets/images/icons/home.svg";
 import bellIcon from "../assets/images/icons/bell.svg";
 import profileIcon from "../assets/images/icons/profile.svg";
 
 const Nav: FC = () => {
+  const [menuClicked, setMenuClicked] = useState(false);
+  const [animate, setAnimate] = useState(0);
+  const clickHandler = () => {
+    setMenuClicked(!menuClicked);
+    if (animate === 0) {
+      setAnimate(1);
+    } else {
+      setAnimate(0);
+    }
+  };
   return (
     <nav>
       <ul>
@@ -31,7 +41,22 @@ const Nav: FC = () => {
             type="image/svg+xml"
           ></object>
         </div>
-        <div className="nav-mobile">=</div>
+        <div className="nav-mobile">
+          <div className="hamburger-wrapper">
+            <div
+              className="hamburger"
+              role="button"
+              // eslint-disable-next-line @typescript-eslint/ban-ts-comment
+              // @ts-ignore
+              animate={animate}
+              onClick={clickHandler}
+            >
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+        </div>
       </ul>
     </nav>
   );
