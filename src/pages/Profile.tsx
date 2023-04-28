@@ -28,14 +28,16 @@ const Profile: FC = () => {
             </div>
           </div>
           <div className="follower-column">
-            <h1>
-              {" "}
-              <object
-                className="graph-icon"
-                data={graphIcon}
-                type="image/svg+xml"
-              ></object>
-              Overview
+            <h1 className="overview-header">
+              <div className="overview-info">
+                {" "}
+                <object
+                  className="graph-icon"
+                  data={graphIcon}
+                  type="image/svg+xml"
+                ></object>
+                Overview
+              </div>
             </h1>
             <ul>
               <li>
