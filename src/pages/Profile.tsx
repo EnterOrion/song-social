@@ -6,6 +6,9 @@ import graphIcon from "../assets/images/icons/graph.svg";
 import songIcon from "../assets/images/icons/song.svg";
 import artistIcon from "../assets/images/icons/artist.svg";
 import albumIcon from "../assets/images/icons/album2.svg";
+import testAlbum1 from "../assets/images/testAlbum1.jpeg";
+import testAlbum2 from "../assets/images/testAlbum2.png";
+import testAlbum3 from "../assets/images/testAlbum3.jpg";
 
 const Profile: FC = () => {
   return (
@@ -102,7 +105,17 @@ const Profile: FC = () => {
             </ul>
           </div>
         </div>
-        <div className="profile-lower-half"></div>
+        <div className="profile-lower-half">
+          <div className="song-item">
+            <img src={testAlbum1} alt="" className="song-item-photo" />
+          </div>
+          <div className="song-item">
+            <img src={testAlbum2} alt="" className="song-item-photo" />
+          </div>
+          <div className="song-item">
+            <img src={testAlbum3} alt="" className="song-item-photo" />
+          </div>
+        </div>
       </div>
     </>
   );
