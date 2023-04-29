@@ -1,5 +1,6 @@
 import { FC } from "react";
 import Nav from "../components/Nav";
+import NewPost from "../components/NewPost";
 import SongPost from "../components/SongPost";
 import loopIcon from "../assets/images/icons/loop.svg";
 import noteIcon from "../assets/images/icons/note.svg";
@@ -42,7 +43,10 @@ const Home: FC = () => {
             </li>
           </ol>
         </div>
-        <SongPost />
+        <div className="song-container">
+          <NewPost />
+          <SongPost />
+        </div>
         <div className="home-profile">
           <h1>
             {" "}

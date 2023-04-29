@@ -1,0 +1,33 @@
+.login-page {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+.search-header {
+  display: flex;
+  text-align: center;
+  justify-content: center;
+  gap: 1rem;
+  margin-top: 120px;
+  ul {
+    list-style: none;
+  }
+}
+
+.search-posts {
+  border-right: 2px solid #e2e8f0;
+  padding-right: 1rem;
+}
+
+.less-padding2 {
+  padding-top: clamp(50px, 2%, 1000px);
+}
+
+.search-posts:hover,
+.search-users:hover {
+  text-decoration: underline;
+  text-decoration-color: hsl(314, 47%, 29%);
+  cursor: pointer;
+}
