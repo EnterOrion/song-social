@@ -7,8 +7,8 @@ import SearchResults from "./pages/SearchResults";
 function App() {
   return (
     <>
-      {/* <Home /> */}
-      <Login />
+      <Home />
+      {/* <Login /> */}
       {/* <Profile /> */}
       {/* <SearchResults /> */}
     </>

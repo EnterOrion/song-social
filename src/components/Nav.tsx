@@ -1,4 +1,5 @@
 import { FC, useState } from "react";
+import { Link } from "react-router-dom";
 import homeIcon from "../assets/images/icons/home.svg";
 import bellIcon from "../assets/images/icons/bell.svg";
 import profileIcon from "../assets/images/icons/profile.svg";
@@ -25,21 +26,25 @@ const Nav: FC = () => {
           <input type="text" placeholder="Search" />
         </form>
         <div className="nav-3">
-          <object
-            className="home-icon"
-            data={homeIcon}
-            type="image/svg+xml"
-          ></object>
+          <Link to="/">
+            <object
+              className="home-icon"
+              data={homeIcon}
+              type="image/svg+xml"
+            ></object>
+          </Link>
           <object
             className="bell-icon"
             data={bellIcon}
             type="image/svg+xml"
           ></object>
-          <object
-            className="profile-icon"
-            data={profileIcon}
-            type="image/svg+xml"
-          ></object>
+          <Link to="/profile">
+            <object
+              className="profile-icon"
+              data={profileIcon}
+              type="image/svg+xml"
+            ></object>
+          </Link>
         </div>
         <div className="nav-mobile">
           <div className="hamburger-wrapper">
