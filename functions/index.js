@@ -15,14 +15,14 @@ admin.initializeApp({
   // eslint-disable-next-line @typescript-eslint/ban-ts-comment
   // @ts-ignore
   credential: admin.credential.cert(serviceAccount),
-  databaseURL: `https://${process.env.GCLOUD_PROJECT}.firebaseio.com`,
+  databaseURL: `https://${process.env.GCLOUD_PROJECT}-default-rtdb.firebaseio.com`,
 });
 
 const SpotifyWebApi = require("spotify-web-api-node");
 const Spotify = new SpotifyWebApi({
   clientId: functions.config().spotify.client_id,
   clientSecret: functions.config().spotify.client_secret,
-  redirectUri: `https://${process.env.GCLOUD_PROJECT}.firebaseapp.com/popup.html`,
+  redirectUri: `http://localhost:5173/`,
 });
 
 const OAUTH_SCOPES = ["user-read-email"];
