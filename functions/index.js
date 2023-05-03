@@ -101,6 +101,44 @@ exports.token = functions.https.onRequest((req, res) => {
   return null;
 });
 
+exports.login = functions.https.onCall((data, context) => {
+  functions.logger.log("Received verification state:", data.state);
+  functions.logger.log("Received auth code:", data.code);
+  let token;
+  Spotify.authorizationCodeGrant(data.code, (error, data2) => {
+    if (error) {
+      throw error;
+    }
+    functions.logger.log("Received Access Token:", data2.body["access_token"]);
+    Spotify.setAccessToken(data2.body["access_token"]);
+
+    Spotify.getMe(async (error, userResults) => {
+      if (error) {
+        throw error;
+      }
+      functions.logger.log("Auth code exchange result received:", userResults);
+      // We have a Spotify access token and the user identity now.
+      const accessToken = data2.body["access_token"];
+      const spotifyUserID = userResults.body["id"];
+      const profilePic = userResults.body["images"][0]["url"];
+      const userName = userResults.body["display_name"];
+      const email = userResults.body["email"];
+
+      // Create a Firebase account and get the Custom Auth Token.
+      const firebaseToken = await createFirebaseAccount(
+        spotifyUserID,
+        userName,
+        profilePic,
+        email,
+        accessToken
+      );
+      token = firebaseToken;
+    });
+  });
+
+  return token;
+});
+
 /**
  * Creates a Firebase account with the given user profile and returns a custom auth token allowing
  * signing-in this account.

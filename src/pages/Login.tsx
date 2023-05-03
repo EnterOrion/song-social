@@ -1,7 +1,7 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import { app, auth } from "../firebase/init.ts";
 import vinylIcon from "../assets/images/vinyl.png";
-//import firebase from "firebase/compat/app";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 const Login: FC = () => {
   function getURLParameter(name: string) {
@@ -15,24 +15,11 @@ const Login: FC = () => {
   }
 
   function getFirebaseProjectId() {
-    console.log();
     if (app.options.authDomain?.split(".")[0] != undefined) {
       const firebaseProjectId = app.options.authDomain?.split(".")[0];
       return firebaseProjectId;
     } else {
       console.log("error: project not found!");
-    }
-  }
-
-  function tokenReceived(data: { token: string; error?: string }) {
-    if (data.token) {
-      auth.signInWithCustomToken(data.token);
-      // .then(function () {
-      //   window.close();
-      // });
-    } else {
-      console.error(data);
-      document.body.innerText = "Error in the token Function: " + data.error;
     }
   }
 
@@ -48,23 +35,26 @@ const Login: FC = () => {
       "https://us-central1-" +
       getFirebaseProjectId() +
       ".cloudfunctions.net/redirect";
-  } else {
-    // Use JSONP to load the 'token' Firebase Function to exchange the auth code against a Firebase custom token.
-    // This is the URL to the HTTP triggered 'token' Firebase Function.
-    // See https://firebase.google.com/docs/functions.
-    const tokenFunctionURL =
-      "https://us-central1-" +
-      getFirebaseProjectId() +
-      ".cloudfunctions.net/token" +
-      "?code=" +
-      encodeURIComponent(code) +
-      "&state=" +
-      encodeURIComponent(state) +
-      "&callback=" +
-      tokenReceived.name;
-
-    window.location.href = tokenFunctionURL;
   }
+  useEffect(() => {
+    const tryLogin = async () => {
+      console.log(code);
+      console.log(state);
+      const functions = getFunctions();
+      const addMessage = httpsCallable(functions, "login");
+      console.log(addMessage);
+      try {
+        const result = await addMessage({
+          state: state,
+          code: code,
+        });
+        console.log(result);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    tryLogin();
+  }, []);
 
   return (
     <div className="login-page">
