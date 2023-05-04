@@ -41,10 +41,9 @@ const Login: FC = () => {
       console.log(code);
       console.log(state);
       const functions = getFunctions();
-      const addMessage = httpsCallable(functions, "login");
-      console.log(addMessage);
+      const getLoginToken = httpsCallable(functions, "login");
       try {
-        const result = await addMessage({
+        const result = await getLoginToken({
           state: state,
           code: code,
         });
