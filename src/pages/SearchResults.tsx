@@ -1,6 +1,6 @@
 import { FC } from "react";
 import Nav from "../components/Nav";
-import SongPost from "../components/SongPost";
+//import SongPost from "../components/SongPost";
 import UserCard from "../components/UserCard";
 
 const SearchResults: FC = () => {

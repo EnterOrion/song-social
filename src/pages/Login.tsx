@@ -1,5 +1,5 @@
 import { FC, useEffect } from "react";
-import { app, auth } from "../firebase/init.ts";
+import { app } from "../firebase/init.ts";
 import vinylIcon from "../assets/images/vinyl.png";
 import { getFunctions, httpsCallable } from "firebase/functions";
 
