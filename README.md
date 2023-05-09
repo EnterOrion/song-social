@@ -6,9 +6,10 @@ A social media application to share songs that you've had looping in the backgro
 
 ## Tools
 
-- React
+- React (with Typescript)
 - React Router
 - Vite
 - Firebase
+- NodeJS (for Firebase cloud functions)
 - Spotify API
 - SASS
