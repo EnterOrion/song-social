@@ -11,6 +11,7 @@ import testAlbum2 from "../assets/images/testAlbum2.png";
 import testAlbum3 from "../assets/images/testAlbum3.jpg";
 
 const Profile: FC = () => {
+  // change profile and cards to receive props
   return (
     <>
       <Nav />
@@ -108,12 +109,48 @@ const Profile: FC = () => {
         <div className="profile-lower-half">
           <div className="song-item">
             <img src={testAlbum1} alt="" className="song-item-photo" />
+            <div className="song-item-info">
+              <ul>
+                <li className="song-item-likes">
+                  <span className="hidden">Likes:</span>
+                  <i className="fas fa-heart" aria-hidden="true"></i> 14
+                </li>
+                <li className="song-item-comments">
+                  <span className="hidden">Comments:</span>
+                  <i className="fas fa-comment" aria-hidden="true"></i> 1
+                </li>
+              </ul>
+            </div>
           </div>
           <div className="song-item">
             <img src={testAlbum2} alt="" className="song-item-photo" />
+            <div className="song-item-info">
+              <ul>
+                <li className="song-item-likes">
+                  <span className="hidden">Likes:</span>
+                  <i className="fas fa-heart" aria-hidden="true"></i> 23
+                </li>
+                <li className="song-item-comments">
+                  <span className="hidden">Comments:</span>
+                  <i className="fas fa-comment" aria-hidden="true"></i> 3
+                </li>
+              </ul>
+            </div>
           </div>
           <div className="song-item">
             <img src={testAlbum3} alt="" className="song-item-photo" />
+            <div className="song-item-info">
+              <ul>
+                <li className="song-item-likes">
+                  <span className="hidden">Likes:</span>
+                  <i className="fas fa-heart" aria-hidden="true"></i> 56
+                </li>
+                <li className="song-item-comments">
+                  <span className="hidden">Comments:</span>
+                  <i className="fas fa-comment" aria-hidden="true"></i> 2
+                </li>
+              </ul>
+            </div>
           </div>
         </div>
       </div>

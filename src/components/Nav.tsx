@@ -19,7 +19,10 @@ const Nav: FC = () => {
     <nav>
       <ul>
         <div className="nav-1">
-          <li>On Repeat</li>
+          <Link to="/">
+            {" "}
+            <li>On Repeat</li>{" "}
+          </Link>
         </div>
 
         <form className="nav-2">
