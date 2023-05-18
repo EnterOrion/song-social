@@ -2,6 +2,7 @@ import firebase from "firebase/compat/app";
 import { getFirestore } from "firebase/firestore";
 import "firebase/compat/auth";
 import "firebase/compat/firestore";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 // import { initializeApp } from "firebase/app";
 //import { getAnalytics } from "firebase/analytics";
 
@@ -25,5 +26,6 @@ const app = firebase.initializeApp(firebaseConfig);
 
 const db = getFirestore(app);
 const auth = firebase.auth();
+const checkAuth = getAuth();
 
-export { db, auth, app };
+export { db, auth, app, onAuthStateChanged, checkAuth };

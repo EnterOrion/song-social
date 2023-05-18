@@ -1,17 +1,21 @@
 import "./styles/style.scss";
+import { useState, useEffect } from "react";
 import Home from "./pages/Home";
-// import Login from "./pages/Login";
-// import Profile from "./pages/Profile";
-// import SearchResults from "./pages/SearchResults";
+import Login from "./pages/Login";
+import { checkAuth, onAuthStateChanged } from "./firebase/init.ts";
 
 function App() {
-  return (
-    <>
-      <Home />
-      {/* <Profile /> */}
-      {/* <SearchResults /> */}
-    </>
+  const [isLoggedIn, setIsLoggedIn] = useState(
+    () => JSON.parse(localStorage.getItem("auth")) || false
   );
+
+  console.log(isLoggedIn);
+
+  if (isLoggedIn) {
+    return <Home />;
+  } else {
+    return <Login />;
+  }
 }
 
 export default App;

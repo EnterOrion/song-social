@@ -1,9 +1,11 @@
-import { FC, useEffect } from "react";
-import { app } from "../firebase/init.ts";
+import { FC, useEffect, useState } from "react";
+import { app, auth } from "../firebase/init.ts";
 import vinylIcon from "../assets/images/vinyl.png";
 import { getFunctions, httpsCallable } from "firebase/functions";
+import { Navigate } from "react-router-dom";
 
 const Login: FC = () => {
+  const [login, setLogin] = useState(false);
   function getURLParameter(name: string) {
     return (
       decodeURIComponent(
@@ -47,7 +49,13 @@ const Login: FC = () => {
           state: state,
           code: code,
         });
-        console.log(result);
+        console.log(result.data.token);
+        if (result.data.token) {
+          auth.signInWithCustomToken(result.data.token).then(() => {
+            setLogin(true);
+            localStorage.setItem("auth", JSON.stringify("true"));
+          });
+        }
       } catch (error) {
         console.log(error);
       }
@@ -55,25 +63,34 @@ const Login: FC = () => {
     tryLogin();
   }, []);
 
+  if (login) {
+    window.history.replaceState({}, document.title, "/");
+  }
+
   return (
-    <div className="login-page">
-      <div className="login-content">
-        <h1 className="login-header">Music listening made social.</h1>
-        <div className="form-container">
-          <img className="login-icon" src={vinylIcon} alt="Vinyl Icon" />
-          <h2 className="bottom-margin">
-            What have you been listening to on repeat?
-          </h2>
-          <h2>Connect today!</h2>
-          <form>
-            <div className="button-section">
-              <button className="spotify-button">Register with Spotify</button>
-              <button className="login-button">Login</button>
-            </div>
-          </form>
+    <>
+      <div className="login-page">
+        <div className="login-content">
+          <h1 className="login-header">Music listening made social.</h1>
+          <div className="form-container">
+            <img className="login-icon" src={vinylIcon} alt="Vinyl Icon" />
+            <h2 className="bottom-margin">
+              What have you been listening to on repeat?
+            </h2>
+            <h2>Connect today!</h2>
+            <form>
+              <div className="button-section">
+                <button className="spotify-button">
+                  Register with Spotify
+                </button>
+                <button className="login-button">Login</button>
+              </div>
+            </form>
+          </div>
         </div>
       </div>
-    </div>
+      {login && <Navigate to="/home" replace={true} />}
+    </>
   );
 };
 

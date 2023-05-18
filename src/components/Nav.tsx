@@ -19,7 +19,7 @@ const Nav: FC = () => {
     <nav>
       <ul>
         <div className="nav-1">
-          <Link to="/">
+          <Link to="/home">
             {" "}
             <li>On Repeat</li>{" "}
           </Link>
@@ -29,7 +29,7 @@ const Nav: FC = () => {
           <input type="text" placeholder="Search" />
         </form>
         <div className="nav-3">
-          <Link to="/">
+          <Link to="/home">
             <object
               className="home-icon"
               data={homeIcon}
