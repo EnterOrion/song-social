@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import { FC, useEffect, useState } from "react";
 import Nav from "../components/Nav";
 import NewPost from "../components/NewPost";
 import SongPost from "../components/SongPost";
@@ -8,20 +8,53 @@ import songIcon from "../assets/images/icons/song.svg";
 import artistIcon from "../assets/images/icons/artist.svg";
 import albumIcon from "../assets/images/icons/album2.svg";
 import { getFunctions, httpsCallable } from "firebase/functions";
+import LoadingIcon from "../assets/images/util/loading.gif";
+
+// TODO: Tweak styling of loading icon
 
 const Home: FC = () => {
+  const [topSongs, setTopSongs] = useState([]);
+
   useEffect(() => {
+    let token;
     const getTokenExpiration = async () => {
       const functions = getFunctions();
       const getExpiration = httpsCallable(functions, "refreshToken");
       try {
         const result = await getExpiration();
-        console.log(result.data);
+        token = result.data.accessToken;
+        let topTracks = await fetchWebApi(token);
+        topTracks = topTracks.items;
+        topTracks = topTracks?.map(({ name, artists }) => (
+          <li>
+            <strong>{name} </strong>by{" "}
+            {artists.map((artist) => artist.name).join(", ")}
+          </li>
+        ));
+        setTopSongs((prevThingsArray) => {
+          return [...prevThingsArray, topTracks];
+        });
       } catch (error) {
         console.log(error);
       }
     };
+
     getTokenExpiration();
+
+    async function fetchWebApi(token) {
+      console.log(token);
+      const res = await fetch(
+        `https://api.spotify.com/v1/me/top/tracks?time_range=short_term&limit=5 `,
+        {
+          method: "GET",
+          headers: {
+            Accept: "application/x-www-form-urlencoded; application/json",
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+      return await res.json();
+    }
   }, []);
 
   return (
@@ -41,21 +74,10 @@ const Home: FC = () => {
             </div>
           </h1>
           <ol>
-            <li>
-              <strong>Wow</strong> by Beck
-            </li>
-            <li>
-              <strong>Little Talks</strong> by Of Monsters and Men
-            </li>
-            <li>
-              <strong>Somebody I used to know</strong> by Goete
-            </li>
-            <li>
-              <strong>Black Skinhead</strong> by Kanye
-            </li>
-            <li>
-              <strong>Fist of God </strong>by MSTRKRFT
-            </li>
+            {topSongs.length === 0 && (
+              <img className="loading-icon" src={LoadingIcon} alt="Loading" />
+            )}
+            {topSongs}
           </ol>
         </div>
         <div className="song-container">

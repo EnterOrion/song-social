@@ -27,7 +27,7 @@ const Spotify = new SpotifyWebApi({
   redirectUri: `http://localhost:5173/`,
 });
 
-const OAUTH_SCOPES = ["user-read-email"];
+const OAUTH_SCOPES = ["user-read-email, user-top-read"];
 
 exports.redirect = functions.https.onRequest((req, res) => {
   cookieParser()(req, res, () => {
@@ -227,7 +227,7 @@ exports.refreshToken = functions.https.onCall(async (data, context) => {
   return new Promise((resolve, reject) => {
     const uid = context.auth.uid;
 
-    const databaseTask = admin
+    const queryCurrentAccessToken = admin
       .database()
       .ref(`/spotifyAccessToken/${uid}`)
       .on(
