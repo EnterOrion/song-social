@@ -1,3 +1,5 @@
+// TO-DO: BREAK UP INTO MULTIPLE FILES
+
 /* eslint-disable no-undef */
 /* eslint-disable @typescript-eslint/no-var-requires */
 const functions = require("firebase-functions");
@@ -101,53 +103,6 @@ exports.token = functions.https.onRequest((req, res) => {
   return null;
 });
 
-// exports.login = functions.https.onCall(async (data, context) => {
-//   functions.logger.log("Received verification state:", data.state);
-//   functions.logger.log("Received auth code:", data.code);
-
-//   try {
-//     return Spotify.authorizationCodeGrant(data.code, (error, data2) => {
-//       if (error) {
-//         throw error;
-//       }
-//       functions.logger.log(
-//         "Received Access Token:",
-//         data2.body["access_token"]
-//       );
-//       Spotify.setAccessToken(data2.body["access_token"]);
-
-//       Spotify.getMe(async (error, userResults) => {
-//         if (error) {
-//           throw error;
-//         }
-//         functions.logger.log(
-//           "Auth code exchange result received:",
-//           userResults
-//         );
-//         // We have a Spotify access token and the user identity now.
-//         const accessToken = data2.body["access_token"];
-//         const spotifyUserID = userResults.body["id"];
-//         const profilePic = userResults.body["images"][0]["url"];
-//         const userName = userResults.body["display_name"];
-//         const email = userResults.body["email"];
-
-//         // Create a Firebase account and get the Custom Auth Token.
-//         const firebaseToken = await createFirebaseAccount(
-//           spotifyUserID,
-//           userName,
-//           profilePic,
-//           email,
-//           accessToken
-//         );
-
-//         return { token: firebaseToken };
-//       });
-//     });
-//   } catch (error) {
-//     functions.logger.log("Login error!", error);
-//   }
-// });
-
 exports.login = functions.https.onCall((data, context) => {
   return new Promise((resolve, reject) => {
     functions.logger.log("Received verification state:", data.state);
@@ -173,18 +128,23 @@ exports.login = functions.https.onCall((data, context) => {
           );
           // We have a Spotify access token and the user identity now.
           const accessToken = data2.body["access_token"];
+          const refreshToken = data2.body["refresh_token"];
+          const tokenExpiration = data2.body["expires_in"];
           const spotifyUserID = userResults.body["id"];
           const profilePic = userResults.body["images"][0]["url"];
           const userName = userResults.body["display_name"];
           const email = userResults.body["email"];
 
           // Create a Firebase account and get the Custom Auth Token.
+          // Need to save refresh token and expiration date
           const firebaseToken = await createFirebaseAccount(
             spotifyUserID,
             userName,
             profilePic,
             email,
-            accessToken
+            accessToken,
+            refreshToken,
+            tokenExpiration
           );
           resolve({ token: firebaseToken });
         });
@@ -199,7 +159,7 @@ exports.login = functions.https.onCall((data, context) => {
 /**
  * Creates a Firebase account with the given user profile and returns a custom auth token allowing
  * signing-in this account.
- * Also saves the accessToken to the datastore at /spotifyAccessToken/$uid
+ * Also saves the accessToken, the freshToken, and the token's expiration to the datastore at /spotifyAccessToken/$uid
  *
  * @returns {Promise<string>} The Firebase custom auth token in a promise.
  */
@@ -208,8 +168,16 @@ async function createFirebaseAccount(
   displayName,
   photoURL,
   email,
-  accessToken
+  accessToken,
+  refreshToken,
+  tokenExpiration
 ) {
+  const profileAPIData = {
+    accessToken: accessToken,
+    refreshToken: refreshToken,
+    tokenExpiration: Date.now() + tokenExpiration * 1000 - 10000,
+  };
+
   // The UID we'll assign to the user.
   const uid = `spotify:${spotifyID}`;
 
@@ -217,7 +185,7 @@ async function createFirebaseAccount(
   const databaseTask = admin
     .database()
     .ref(`/spotifyAccessToken/${uid}`)
-    .set(accessToken);
+    .set(profileAPIData);
 
   // Create or update the user account.
   const userCreationTask = admin
@@ -254,3 +222,78 @@ async function createFirebaseAccount(
   );
   return token;
 }
+
+exports.refreshToken = functions.https.onCall(async (data, context) => {
+  return new Promise((resolve, reject) => {
+    const uid = context.auth.uid;
+
+    const databaseTask = admin
+      .database()
+      .ref(`/spotifyAccessToken/${uid}`)
+      .on(
+        "value",
+        (snapshot) => {
+          console.log(snapshot.val().tokenExpiration);
+          const checkTokenExpiration = snapshot.val().tokenExpiration;
+          const checkAccessToken = snapshot.val().accessToken;
+          const checkRefreshToken = snapshot.val().refreshToken;
+
+          Spotify.setRefreshToken(checkRefreshToken);
+
+          function refreshSpotifyToken() {
+            Spotify.refreshAccessToken().then(
+              function (data) {
+                console.log("The access token has been refreshed!");
+
+                // Save the access token so that it's used in future calls
+                //spotifyApi.setAccessToken(data.body["access_token"]);
+                console.log("The access token is " + data.body["access_token"]);
+                console.log("The token expires in " + data.body["expires_in"]);
+
+                const newExpiration =
+                  Date.now() + data.body["expires_in"] * 1000 - 10000;
+
+                // This could be written in a better async fashion
+                const updateDatabaseToken = admin
+                  .database()
+                  .ref(`/spotifyAccessToken/${uid}`)
+                  .update({
+                    accessToken: data.body["access_token"],
+                    tokenExpiration: newExpiration,
+                  });
+
+                resolve({
+                  success: true,
+                  result: "New token generated",
+                  newAccessToken: data.body["access_token"],
+                });
+              },
+              function (err) {
+                console.log("Could not refresh access token", err);
+                resolve({
+                  result: "error!",
+                });
+              }
+            );
+          }
+
+          if (Date.now() < checkTokenExpiration - 5 * 60 * 1000) {
+            // if token is still valid, return access token
+            console.log("true!");
+            resolve({
+              success: true,
+              result: "Previous token still valid",
+              accessToken: checkAccessToken,
+            });
+          } else {
+            refreshSpotifyToken();
+            console.log("false!");
+          }
+        },
+        (errorObject) => {
+          console.log("The read failed: " + errorObject.name);
+          reject(errorObject.name);
+        }
+      );
+  });
+});

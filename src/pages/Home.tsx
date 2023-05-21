@@ -1,4 +1,4 @@
-import { FC } from "react";
+import { FC, useEffect } from "react";
 import Nav from "../components/Nav";
 import NewPost from "../components/NewPost";
 import SongPost from "../components/SongPost";
@@ -7,8 +7,23 @@ import noteIcon from "../assets/images/icons/note.svg";
 import songIcon from "../assets/images/icons/song.svg";
 import artistIcon from "../assets/images/icons/artist.svg";
 import albumIcon from "../assets/images/icons/album2.svg";
+import { getFunctions, httpsCallable } from "firebase/functions";
 
 const Home: FC = () => {
+  useEffect(() => {
+    const getTokenExpiration = async () => {
+      const functions = getFunctions();
+      const getExpiration = httpsCallable(functions, "refreshToken");
+      try {
+        const result = await getExpiration();
+        console.log(result.data);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+    getTokenExpiration();
+  }, []);
+
   return (
     <>
       <Nav />
