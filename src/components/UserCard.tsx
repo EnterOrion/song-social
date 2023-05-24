@@ -1,5 +1,6 @@
 import { FC } from "react";
 import testPFP from "../assets/images/testPFP.jpg";
+import { Link } from "react-router-dom";
 
 const UserCard: FC = () => {
   return (

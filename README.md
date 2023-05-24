@@ -8,7 +8,7 @@ A social media application to share songs that you've had looping in the backgro
 
 **Planned features:** <br/>
 
-- Home page will display your top five tracks based on plays, using the Spotify API
+- ~~Home page will display your top five tracks based on plays, using the Spotify API~~
 - Stats of how many songs, artists, and albums you've listened to
 - Ability to like and comment on posts, and add songs to your Spotify playlists
 - Follow and be followed by other users

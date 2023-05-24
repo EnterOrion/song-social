@@ -3,12 +3,15 @@ import testPFP from "../assets/images/testPFP.jpg";
 import heartIcon from "../assets/images/icons/heart2.svg";
 import commentIcon from "../assets/images/icons/comment.svg";
 import addIcon from "../assets/images/icons/plus.svg";
+import { Link } from "react-router-dom";
 
 const SongPost: FC = () => {
   return (
     <div className="song-card">
       <div className="post-user">
-        <img className="post-pfp" src={testPFP} alt="User profile picture" />{" "}
+        <Link to="/profile">
+          <img className="post-pfp" src={testPFP} alt="User profile picture" />
+        </Link>{" "}
         <h1 className="user-song">
           <strong>Elliot</strong> is listening to{" "}
           <em>Fist of God by MSTRKRFT</em>

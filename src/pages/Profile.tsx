@@ -1,5 +1,6 @@
-import { FC } from "react";
+import { FC, useState } from "react";
 import Nav from "../components/Nav";
+import ProfilePost from "../components/ProfilePost";
 import testPFP from "../assets/images/testPFP.jpg";
 import loopIcon from "../assets/images/icons/loop2.svg";
 import graphIcon from "../assets/images/icons/graph.svg";
@@ -11,7 +12,10 @@ import testAlbum2 from "../assets/images/testAlbum2.png";
 import testAlbum3 from "../assets/images/testAlbum3.jpg";
 
 const Profile: FC = () => {
-  // change profile and cards to receive props
+  // Will add useEffect to fetch from DB
+  const [posts, setPosts] = useState(4);
+  const [followers, setFollowers] = useState(15);
+  const [following, setFollowing] = useState(20);
   return (
     <>
       <Nav />
@@ -45,13 +49,13 @@ const Profile: FC = () => {
             </h1>
             <ul>
               <li>
-                <strong>4</strong> Posts
+                <strong>{posts}</strong> Posts
               </li>
               <li>
-                <strong>15</strong> Followers
+                <strong>{followers}</strong> Followers
               </li>
               <li>
-                <strong>20</strong> Following
+                <strong>{following}</strong> Following
               </li>
             </ul>
           </div>
@@ -106,52 +110,26 @@ const Profile: FC = () => {
             </ul>
           </div>
         </div>
+        {/* This will be mapped from the database */}
         <div className="profile-lower-half">
-          <div className="song-item">
-            <img src={testAlbum1} alt="" className="song-item-photo" />
-            <div className="song-item-info">
-              <ul>
-                <li className="song-item-likes">
-                  <span className="hidden">Likes:</span>
-                  <i className="fas fa-heart" aria-hidden="true"></i> 14
-                </li>
-                <li className="song-item-comments">
-                  <span className="hidden">Comments:</span>
-                  <i className="fas fa-comment" aria-hidden="true"></i> 1
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="song-item">
-            <img src={testAlbum2} alt="" className="song-item-photo" />
-            <div className="song-item-info">
-              <ul>
-                <li className="song-item-likes">
-                  <span className="hidden">Likes:</span>
-                  <i className="fas fa-heart" aria-hidden="true"></i> 23
-                </li>
-                <li className="song-item-comments">
-                  <span className="hidden">Comments:</span>
-                  <i className="fas fa-comment" aria-hidden="true"></i> 3
-                </li>
-              </ul>
-            </div>
-          </div>
-          <div className="song-item">
-            <img src={testAlbum3} alt="" className="song-item-photo" />
-            <div className="song-item-info">
-              <ul>
-                <li className="song-item-likes">
-                  <span className="hidden">Likes:</span>
-                  <i className="fas fa-heart" aria-hidden="true"></i> 56
-                </li>
-                <li className="song-item-comments">
-                  <span className="hidden">Comments:</span>
-                  <i className="fas fa-comment" aria-hidden="true"></i> 2
-                </li>
-              </ul>
-            </div>
-          </div>
+          <ProfilePost
+            albumCover={testAlbum1}
+            albumAlt=""
+            likes={14}
+            comments={1}
+          />
+          <ProfilePost
+            albumCover={testAlbum2}
+            albumAlt=""
+            likes={23}
+            comments={3}
+          />
+          <ProfilePost
+            albumCover={testAlbum3}
+            albumAlt=""
+            likes={56}
+            comments={2}
+          />
         </div>
       </div>
     </>

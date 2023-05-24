@@ -10,10 +10,14 @@ import albumIcon from "../assets/images/icons/album2.svg";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import LoadingIcon from "../assets/images/util/loading.gif";
 
-// TODO: Tweak styling of loading icon
+// TODO: Tweak styling of loading icon (can be a little too big)
 
 const Home: FC = () => {
+  // Will fetch data from DB
   const [topSongs, setTopSongs] = useState([]);
+  const [trackRecord, setTrackRecord] = useState(4);
+  const [albumRecord, setAlbumRecord] = useState(2);
+  const [artistRecord, setArtistRecord] = useState(2);
 
   useEffect(() => {
     let token;
@@ -25,12 +29,14 @@ const Home: FC = () => {
         token = result.data.accessToken;
         let topTracks = await fetchWebApi(token);
         topTracks = topTracks.items;
+        // Store top tracks so it can be rendered easily with nice formatting
         topTracks = topTracks?.map(({ name, artists }) => (
           <li>
             <strong>{name} </strong>by{" "}
             {artists.map((artist) => artist.name).join(", ")}
           </li>
         ));
+        // Update the state
         setTopSongs((prevThingsArray) => {
           return [...prevThingsArray, topTracks];
         });
@@ -103,7 +109,8 @@ const Home: FC = () => {
                   data={songIcon}
                   type="image/svg+xml"
                 ></object>{" "}
-                <span className="accent-color">4 different </span> tracks
+                <span className="accent-color">{trackRecord} different </span>{" "}
+                tracks
               </div>
             </li>
             <li>
@@ -114,7 +121,8 @@ const Home: FC = () => {
                   data={artistIcon}
                   type="image/svg+xml"
                 ></object>{" "}
-                <span className="accent-color">2 different </span>artists
+                <span className="accent-color">{artistRecord} different </span>
+                artists
               </div>
             </li>
             <li>
@@ -125,7 +133,8 @@ const Home: FC = () => {
                   data={albumIcon}
                   type="image/svg+xml"
                 ></object>{" "}
-                <span className="accent-color">2 different </span>albums
+                <span className="accent-color">{albumRecord} different </span>
+                albums
               </div>
             </li>
           </ul>

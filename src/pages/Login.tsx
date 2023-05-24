@@ -1,4 +1,4 @@
-import { FC, useEffect, useState } from "react";
+import { FC, useState } from "react";
 import { app, auth } from "../firebase/init.ts";
 import vinylIcon from "../assets/images/vinyl.png";
 import { getFunctions, httpsCallable } from "firebase/functions";
@@ -16,29 +16,36 @@ const Login: FC = () => {
     );
   }
 
-  function getFirebaseProjectId() {
-    if (app.options.authDomain?.split(".")[0] != undefined) {
-      const firebaseProjectId = app.options.authDomain?.split(".")[0];
-      return firebaseProjectId;
+  const authProcess = (e = null) => {
+    if (e == null) {
+      console.log("logging in");
     } else {
-      console.log("error: project not found!");
+      e.preventDefault();
     }
-  }
+    const error = getURLParameter("error");
+    const code = getURLParameter("code");
+    const state = getURLParameter("state");
 
-  const code = getURLParameter("code");
-  const state = getURLParameter("state");
-  const error = getURLParameter("error");
+    if (error) {
+      document.body.innerText =
+        "Error back from the Spotify auth page: " + error;
+    } else if (!code) {
+      // Start the auth flow.
+      window.location.href =
+        "https://us-central1-" +
+        getFirebaseProjectId() +
+        ".cloudfunctions.net/redirect";
+    }
 
-  if (error) {
-    document.body.innerText = "Error back from the Spotify auth page: " + error;
-  } else if (!code) {
-    // Start the auth flow.
-    window.location.href =
-      "https://us-central1-" +
-      getFirebaseProjectId() +
-      ".cloudfunctions.net/redirect";
-  }
-  useEffect(() => {
+    function getFirebaseProjectId() {
+      if (app.options.authDomain?.split(".")[0] != undefined) {
+        const firebaseProjectId = app.options.authDomain?.split(".")[0];
+        return firebaseProjectId;
+      } else {
+        console.log("error: project not found!");
+      }
+    }
+
     const tryLogin = async () => {
       console.log(code);
       console.log(state);
@@ -60,8 +67,14 @@ const Login: FC = () => {
         console.log(error);
       }
     };
+
     tryLogin();
-  }, []);
+  };
+
+  const code = getURLParameter("code");
+  if (code) {
+    authProcess();
+  }
 
   if (login) {
     window.history.replaceState({}, document.title, "/");
@@ -83,7 +96,9 @@ const Login: FC = () => {
                 <button className="spotify-button">
                   Register with Spotify
                 </button>
-                <button className="login-button">Login</button>
+                <button className="login-button" onClick={authProcess}>
+                  Login
+                </button>
               </div>
             </form>
           </div>

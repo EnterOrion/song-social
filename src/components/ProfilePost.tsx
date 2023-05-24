@@ -1,11 +1,12 @@
 import { FC } from "react";
-
-const ProfilePost: FC = (props: {
-  albumCover: string;
+interface songItem {
+  albumCover: any;
   albumAlt: string;
   likes: number;
   comments: number;
-}) => {
+}
+
+const ProfilePost: FC = (props: songItem) => {
   return (
     <div className="song-item">
       <img
