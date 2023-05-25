@@ -9,6 +9,7 @@ import artistIcon from "../assets/images/icons/artist.svg";
 import albumIcon from "../assets/images/icons/album2.svg";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import LoadingIcon from "../assets/images/util/loading.gif";
+import { auth } from "../firebase/init";
 
 // TODO: Tweak styling of loading icon (can be a little too big)
 
@@ -87,7 +88,7 @@ const Home: FC = () => {
           </ol>
         </div>
         <div className="song-container">
-          <NewPost />
+          <NewPost pfp={auth.currentUser.photoURL} />
           <SongPost />
         </div>
         <div className="home-profile">

@@ -1,7 +1,6 @@
 import { FC, useState } from "react";
 import Nav from "../components/Nav";
 import ProfilePost from "../components/ProfilePost";
-import testPFP from "../assets/images/testPFP.jpg";
 import loopIcon from "../assets/images/icons/loop2.svg";
 import graphIcon from "../assets/images/icons/graph.svg";
 import songIcon from "../assets/images/icons/song.svg";
@@ -10,6 +9,7 @@ import albumIcon from "../assets/images/icons/album2.svg";
 import testAlbum1 from "../assets/images/testAlbum1.jpeg";
 import testAlbum2 from "../assets/images/testAlbum2.png";
 import testAlbum3 from "../assets/images/testAlbum3.jpg";
+import { auth } from "../firebase/init";
 
 const Profile: FC = () => {
   // Will add useEffect to fetch from DB
@@ -24,11 +24,11 @@ const Profile: FC = () => {
           <div className="prof-pic-name">
             <img
               className="profile-pfp"
-              src={testPFP}
+              src={auth.currentUser.photoURL}
               alt="User profile picture"
             />
             <div className="prof-name-tag">
-              <p className="prof-name">Elliot</p>
+              <p className="prof-name">{auth.currentUser.displayName}</p>
               <p className="prof-tagline">
                 A lover of electronic music. I like to listen to music that
                 makes me energized.

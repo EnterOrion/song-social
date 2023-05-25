@@ -1,6 +1,6 @@
 import { FC } from "react";
 interface songItem {
-  albumCover: any;
+  albumCover: string;
   albumAlt: string;
   likes: number;
   comments: number;
