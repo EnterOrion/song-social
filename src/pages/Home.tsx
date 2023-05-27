@@ -16,6 +16,7 @@ import { auth } from "../firebase/init";
 const Home: FC = () => {
   // Will fetch data from DB
   const [topSongs, setTopSongs] = useState([]);
+  const [token, setToken] = useState(null);
   const [trackRecord, setTrackRecord] = useState(4);
   const [albumRecord, setAlbumRecord] = useState(2);
   const [artistRecord, setArtistRecord] = useState(2);
@@ -28,6 +29,7 @@ const Home: FC = () => {
       try {
         const result = await getExpiration();
         token = result.data.accessToken;
+        setToken(token);
         let topTracks = await fetchWebApi(token);
         topTracks = topTracks.items;
         // Store top tracks so it can be rendered easily with nice formatting
@@ -88,7 +90,7 @@ const Home: FC = () => {
           </ol>
         </div>
         <div className="song-container">
-          <NewPost pfp={auth.currentUser.photoURL} />
+          <NewPost pfp={auth.currentUser.photoURL} token={token} />
           <SongPost />
         </div>
         <div className="home-profile">
