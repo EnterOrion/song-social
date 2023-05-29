@@ -11,8 +11,6 @@ import { getFunctions, httpsCallable } from "firebase/functions";
 import LoadingIcon from "../assets/images/util/loading.gif";
 import { auth } from "../firebase/init";
 
-// TODO: Tweak styling of loading icon (can be a little too big)
-
 const Home: FC = () => {
   // Will fetch data from DB
   const [topSongs, setTopSongs] = useState([]);

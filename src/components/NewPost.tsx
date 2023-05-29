@@ -96,20 +96,41 @@ const NewPost: FC = (props: newPostContents) => {
           <input
             type="text"
             placeholder="Enter the track title here as it appears on Spotify"
-            {...register("track", { required: true })}
+            {...register("track", { required: true, maxLength: 400 })}
           />
-          {errors.track && <span>This field is required</span>}
+
           <input
             type="text"
             placeholder="Enter the artist of the track as it appears on Spotify"
-            {...register("artist", { required: true })}
+            {...register("artist", { required: true, maxLength: 100 })}
           />
-          {errors.artist && <span>This field is required</span>}
+
           <textarea
             placeholder="List some reasons why. Reminds you of an old crush? It fits the weather right now?"
-            {...register("description", { required: true })}
+            {...register("description", { required: true, maxLength: 500 })}
           />
-          {errors.description && <span>This field is required</span>}
+
+          {errors.track?.type === "required" && (
+            <li>The track field is required.</li>
+          )}
+          {errors.track?.type === "maxLength" && (
+            <li>Max length for tracks is 400 characters</li>
+          )}
+          {errors.artist?.type === "required" && (
+            <li>The artist field is required.</li>
+          )}
+          {errors.artist?.type === "maxLength" && (
+            <li>Max length for artists is 100 characters</li>
+          )}
+          {errors.description?.type === "required" && (
+            <li>The description field is required.</li>
+          )}
+          {errors.description?.type === "maxLength" && (
+            <li>Max length for the description is 500 characters</li>
+          )}
+          {errors.root?.serverError?.type === "404" && (
+            <li>Artist or track not found. Check spelling and try again.</li>
+          )}
         </div>
         <button className="submit-post">Submit</button>
       </form>

@@ -19,7 +19,7 @@
 }
 
 .profile-upper-half {
-  height: clamp(300px, 43vh, 1000px);
+  height: clamp(300px, 43vh, 400px);
   display: flex;
   align-items: center;
   gap: 5rem;
@@ -85,13 +85,19 @@
   }
 }
 
-@media (max-width: 950px) {
-  .profile-upper-half {
-    gap: 3rem;
+@media (max-width: 1142px) {
+  .stats-header {
+    line-height: 1.1;
   }
 }
 
-@media (max-width: 900px) {
+@media (max-width: 1100px) {
+  .profile-upper-half {
+    gap: 2rem;
+  }
+}
+
+@media (max-width: 920px) {
   .follower-column {
     border-right: none;
   }
