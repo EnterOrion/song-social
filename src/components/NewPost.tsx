@@ -17,7 +17,6 @@ const NewPost: FC = (props: newPostContents) => {
     reset,
     setError,
     formState,
-    formState: { isSubmitSuccessful },
   } = useForm({
     criteriaMode: "all",
   });
@@ -53,6 +52,7 @@ const NewPost: FC = (props: newPostContents) => {
       description: data.description,
       song: data.track,
       userDisplayName: auth.currentUser.displayName,
+      userPFP: auth.currentUser.photoURL,
     });
   }
 

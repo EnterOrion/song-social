@@ -5,25 +5,32 @@ import commentIcon from "../assets/images/icons/comment.svg";
 import addIcon from "../assets/images/icons/plus.svg";
 import { Link } from "react-router-dom";
 
-const SongPost: FC = () => {
+interface songPost {
+  userDisplayName: string;
+  pfp: string;
+  song: string;
+  artist: string;
+  description: string;
+  time: string;
+}
+
+const SongPost: FC = (props: songPost) => {
   return (
     <div className="song-card">
       <div className="post-user">
         <Link to="/profile">
-          <img className="post-pfp" src={testPFP} alt="User profile picture" />
+          <img className="post-pfp" src={props.pfp} alt="Profile picture" />
         </Link>{" "}
         <h1 className="user-song">
-          <strong>Elliot</strong> is listening to{" "}
-          <em>Fist of God by MSTRKRFT</em>
+          <strong>{props.userDisplayName}</strong> is listening to{" "}
+          <em>
+            {props.song} by {props.artist}
+          </em>
         </h1>
       </div>
       <div className="post-info">
-        <p className="post-description">
-          I feel like it suits my mood. I've been trying to save the world from
-          evil corporations and this song gets me motivated to keep going. It
-          has a lot of energy.
-        </p>
-        <p className="post-time">30 minutes ago</p>
+        <p className="post-description">{props.description}</p>
+        <p className="post-time">{props.time}</p>
       </div>
       <div className="post-actions">
         <object

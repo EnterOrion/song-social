@@ -9,11 +9,13 @@ import artistIcon from "../assets/images/icons/artist.svg";
 import albumIcon from "../assets/images/icons/album2.svg";
 import { getFunctions, httpsCallable } from "firebase/functions";
 import LoadingIcon from "../assets/images/util/loading.gif";
-import { auth } from "../firebase/init";
+import { auth, db } from "../firebase/init";
+import { collection, query, where, getDocs } from "firebase/firestore";
 
 const Home: FC = () => {
   // Will fetch data from DB
   const [topSongs, setTopSongs] = useState([]);
+  const [posts, setPosts] = useState([]);
   const [token, setToken] = useState(null);
   const [trackRecord, setTrackRecord] = useState(4);
   const [albumRecord, setAlbumRecord] = useState(2);
@@ -64,6 +66,40 @@ const Home: FC = () => {
     }
   }, []);
 
+  const q = query(
+    collection(db, "posts"),
+    where("userDisplayName", "==", "Orión")
+  );
+
+  useEffect(() => {
+    const getHomePosts = async () => {
+      const querySnapshot = await getDocs(q);
+      const homePost = querySnapshot.docs.map((doc) => (
+        // doc.data() is never undefined for query doc snapshots
+        <SongPost
+          song={doc._document.data.value.mapValue.fields.song.stringValue}
+          artist={doc._document.data.value.mapValue.fields.artist.stringValue}
+          userDisplayName={
+            doc._document.data.value.mapValue.fields.userDisplayName.stringValue
+          }
+          description={
+            doc._document.data.value.mapValue.fields.description.stringValue
+          }
+          pfp={doc._document.data.value.mapValue.fields.userPFP.stringValue}
+          time={
+            doc._document.data.value.mapValue.fields.dateAdded.timestampValue
+          }
+        />
+      ));
+
+      setPosts((prevThingsArray) => {
+        return [...prevThingsArray, homePost];
+      });
+    };
+
+    getHomePosts();
+  }, []);
+
   return (
     <>
       <Nav />
@@ -89,7 +125,8 @@ const Home: FC = () => {
         </div>
         <div className="song-container">
           <NewPost pfp={auth.currentUser.photoURL} token={token} />
-          <SongPost />
+          {posts}
+          {/* <SongPost /> */}
         </div>
         <div className="home-profile">
           <h1>
