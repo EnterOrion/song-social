@@ -86,9 +86,7 @@ const Home: FC = () => {
             doc._document.data.value.mapValue.fields.description.stringValue
           }
           pfp={doc._document.data.value.mapValue.fields.userPFP.stringValue}
-          time={
-            doc._document.data.value.mapValue.fields.dateAdded.timestampValue
-          }
+          time={doc._document.data.value.mapValue.fields.dateAdded.integerValue}
         />
       ));
 

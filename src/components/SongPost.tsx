@@ -33,21 +33,27 @@ const SongPost: FC = (props: songPost) => {
         <p className="post-time">{props.time}</p>
       </div>
       <div className="post-actions">
-        <object
-          className="heart-icon"
-          data={heartIcon}
-          type="image/svg+xml"
-        ></object>
-        <object
-          className="add-icon"
-          data={addIcon}
-          type="image/svg+xml"
-        ></object>
-        <object
-          className="comment-icon"
-          data={commentIcon}
-          type="image/svg+xml"
-        ></object>
+        <a href="" className="svg-cursor">
+          <object
+            className="heart-icon"
+            data={heartIcon}
+            type="image/svg+xml"
+          ></object>
+        </a>
+        <a href="" className="svg-cursor">
+          <object
+            className="add-icon"
+            data={addIcon}
+            type="image/svg+xml"
+          ></object>
+        </a>
+        <a href="" className="svg-cursor">
+          <object
+            className="comment-icon"
+            data={commentIcon}
+            type="image/svg+xml"
+          ></object>
+        </a>
       </div>
     </div>
   );

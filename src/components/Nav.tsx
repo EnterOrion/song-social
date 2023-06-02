@@ -36,11 +36,13 @@ const Nav: FC = () => {
               type="image/svg+xml"
             ></object>
           </Link>
-          <object
-            className="bell-icon"
-            data={bellIcon}
-            type="image/svg+xml"
-          ></object>
+          <a href="" className="svg-cursor">
+            <object
+              className="bell-icon"
+              data={bellIcon}
+              type="image/svg+xml"
+            ></object>
+          </a>
           <Link to="/profile">
             <object
               className="profile-icon"

@@ -1,7 +1,7 @@
 import { FC, useEffect } from "react";
 import { Link } from "react-router-dom";
 import { useForm } from "react-hook-form";
-import { addDoc, collection, serverTimestamp } from "firebase/firestore";
+import { addDoc, collection } from "firebase/firestore";
 import { db, auth } from "../firebase/init";
 
 interface newPostContents {
@@ -45,12 +45,24 @@ const NewPost: FC = (props: newPostContents) => {
       return;
     }
     const albumCover = results.tracks.items[0].album.images[0].url;
+    const songID = results.tracks.items[0].id;
+    const now = new Date();
+    const utc_timestamp = Date.UTC(
+      now.getFullYear(),
+      now.getMonth(),
+      now.getDate(),
+      now.getHours(),
+      now.getMinutes(),
+      now.getSeconds(),
+      now.getMilliseconds()
+    );
     await addDoc(collection(db, "posts"), {
       albumCover: albumCover,
       artist: data.artist,
-      dateAdded: serverTimestamp(),
+      dateAdded: utc_timestamp,
       description: data.description,
       song: data.track,
+      songID: songID,
       userDisplayName: auth.currentUser.displayName,
       userPFP: auth.currentUser.photoURL,
     });
